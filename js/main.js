@@ -8,11 +8,11 @@ const ERROR_MARGIN = 0.999;
 let height = slider.value;
 let width = height * DISPLAY_RATIO;
 
-let active = false;
 let rainbow = false;
 let grayscale = false;
 
 let keyControls = false;
+let dir;
 
 let pixels = [];
 
@@ -36,8 +36,11 @@ function buildEtchSketch(height) {
 
     let dimensions = calcDimensions(height);
     pixels = [];
+    grayscale = false;
+    rainbow = false;
     createDivisions(dimensions);
     resetPointer();
+    clearPixelIndex();
 }
 
 function createDivisions(dimensions) {
@@ -67,23 +70,37 @@ function calcDimensions(height) {
     return [area, pixelWidth, pixelHeight];
 }
 
-function clearScreen() {
+function resizeScreen() {
 
-    active = false;
+    let colorOrder = [];
 
     for (let pixel of pixels) {
 
-        pixel.style.backgroundColor = "#C0C0C0";
+        colorOrder.push(pixel.style.backgroundColor);
+    }
+
+    let tmp = pixelIndex;
+    rebuildScreen();
+    pixelIndex = tmp;
+
+    for (i = 0; i < colorOrder.length - 1; i++) {
+
+        colorPixel(pixels[i], colorOrder[i]);
+    }
+}
+
+function clearScreen() {
+
+    grayscale = false;
+    rainbow = false;
+
+    for (let pixel of pixels) {
+
+        colorPixel(pixel, "#C0C0C0");
         pixel.lightness = 70;
     }
     clearPixelIndex();
     resetPointer();
-}
-
-function toggleActive() {
-    
-    active = !active;
-    
 }
 
 function removeDivisions() {
@@ -98,10 +115,9 @@ function rebuildScreen() {
     
     height = document.querySelector("#gridsize").value;
     width = height * DISPLAY_RATIO;
-    active = false;
+
     removeDivisions();
     buildEtchSketch(height);
-    clearPixelIndex();
 }
 
 function updateDisplay() {
@@ -165,29 +181,11 @@ function findPixels(pixelIndex) {
 
 function buildLine(line) {
 
-    let color = "#A9A9A9";
-
     for (const point of line) {
 
         let pixelId = point[0] + (point[1] * width);
         
-        if (rainbow) {
-
-            color = "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
-        }
-
-        if (grayscale) {
-            
-            if (pixels[pixelId].lightness !== 0) pixels[pixelId].lightness -= 10;
-
-            let lightness = pixels[pixelId].lightness;
-
-            pixels[pixelId].style.backgroundColor = `hsl(0, 0%, ${lightness}%)`;
-
-        } else {
-
-            pixels[pixelId].style.backgroundColor = color;
-        }
+        colorPixel(pixels[pixelId], "#A9A9A9");
         
     }
 }
@@ -270,14 +268,14 @@ function toggleKeyControls() {
 
 function handleClicks(e) {
 
+    if (e.button === 2 || e.button === 1) return;
+
     if (keyControls) return;
 
-    active = true;
-
-    if (e.target !== screen && active) {
+    if (e.target !== screen) {
 
         buildPixelIndex(e.target);
-        e.target.style.backgroundColor = '#A9A9A9';
+        colorPixel(e.target, "#A9A9A9");
     }
 }
 
@@ -289,35 +287,81 @@ function handleKeys(e) {
 
     if (!keyControls) return;
 
+    let pointerId = pointer.x + pointer.y * width;
+    // colorPixel(pixels[pointerId], "#A9A9A9");
+
     switch (key) {
 
         case 'ArrowUp':
             e.preventDefault();
+
+            if (dir === 1) {
+
+                colorPixel(pixels[pointerId], "#A9A9A9");
+            }
+
             if (pointer.y > 0) pointer.y--;
+            dir = 0;
             break;
         case 'ArrowDown':
             e.preventDefault();
+
+            if (dir === 0) {
+
+                colorPixel(pixels[pointerId], "#A9A9A9");
+            }
+
             if (pointer.y < height - 1) pointer.y++;
+            dir = 1;
             break;
         case 'ArrowLeft':
             e.preventDefault();
+
+            if (dir === 3) {
+
+                colorPixel(pixels[pointerId], "#A9A9A9");
+            }
+
             if (pointer.x > 0) pointer.x--;
+            dir = 2;
             break;
         case 'ArrowRight':
             e.preventDefault();
+
+            if (dir === 2) {
+
+                colorPixel(pixels[pointerId], "#A9A9A9");
+            }
+
             if (pointer.x < width - 1) pointer.x++;
+            dir = 3;
             break;
     }
 
     let pixelId = pointer.x + pointer.y * width;
-    pixels[pixelId].style.backgroundColor = "#A9A9A9";
+    colorPixel(pixels[pixelId], "#A9A9A9");
 }
 
-// screen.addEventListener('mouseover', managePixels);
+function colorPixel(pixel, color) {
+
+    if (rainbow) {
+
+        color = "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+    } else if (grayscale) {
+
+        if (pixel.lightness !== 0) pixel.lightness -= 10;
+        let lightness = pixel.lightness;
+        color = `hsl(0, 0%, ${lightness}%)`;
+    }
+
+    pixel.style.backgroundColor = color;
+}
 
 screen.addEventListener('mousedown', handleClicks);
 
 window.addEventListener('keydown', handleKeys);
+
+window.addEventListener('resize', resizeScreen);
 
 buildEtchSketch(height);
 updateDisplay();
