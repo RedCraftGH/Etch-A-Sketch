@@ -9,7 +9,7 @@ body {
     height: 180vh;
 }
 
-.topbar, .bottombar {
+.topbar {
     font-size: 1.75rem;
     text-align: center;
     color: white;
@@ -21,7 +21,7 @@ body {
     width: 50%;
 }
 
-.topbar h1, .bottombar h1 {
+.topbar h1 {
     background-color: aqua;
     border-radius: 15px;
     padding: 1% 0;
@@ -73,18 +73,29 @@ body {
 .controls {
     margin-left: auto;
     margin-right: auto;
-    margin-top: 6%;
+    margin-top: 5%;
 
     width: 50%;
-    height: 20%;
+    height: 30%;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
+.buttons {
+    display: flex;
+    align-items: center;
+    height: 67%;
+    width: 100%;
     justify-content: space-between;
 }
 
 #slider {
     width: 100%;
     text-align: center;
+    display: flex;
+    flex-direction: column;
 }
 
 #slider p {
@@ -92,11 +103,11 @@ body {
 }
 
 #gridsize {
-    height: 75%;
+    height: 33%;
     width: 100%;
 }
 
 #clear, #rebuild, #rainbow, #grayscale, #keycontrols {
-    height: 25%;
-    width: 20%;
+    height: 20%;
+    width: 15%;
 }

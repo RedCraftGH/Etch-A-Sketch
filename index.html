@@ -15,16 +15,22 @@
             <div class="rightknob"></div>
         </div>
         <div class="controls">
+            <div>
+                <label for="colorselector">Line Color:</label>
+                <input type="color" id="colorselector" value="#A9A9A9" onchange="setLineColor()">
+            </div>
             <div id="slider">
                 <label for="gridsize">Resolution:</label>
-                <label id="display" for="gridsize">placeholder</label>
+                <label id="display" for="gridsize">0x0</label>
                 <input type="range" id="gridsize" name="gridsize" min="5" max="125" oninput="updateDisplay()">
             </div>
-            <button type="button" id="clear" onclick="clearScreen()">Clear!</button>
-            <button type="button" id="rebuild" onclick="rebuildScreen()">Change Resolution</button>
-            <button type="button" id="rainbow" onclick="toggleRainbow()">Rainbow Mode!</button>
-            <button type="button" id="grayscale" onclick="toggleGrayScale()">Grayscale Mode!</button>
-            <button type="button" id="keycontrols" onclick="toggleKeyControls()">Arrow Key Controls!</button>
+            <div class="buttons">
+                <button type="button" id="clear" onclick="clearScreen()">Clear!</button>
+                <button type="button" id="rebuild" onclick="rebuildScreen()">Change Resolution</button>
+                <button type="button" id="rainbow" onclick="toggleRainbow()">Rainbow Mode!</button>
+                <button type="button" id="grayscale" onclick="toggleGrayScale()">Toggle Line Shading!</button>
+                <button type="button" id="keycontrols" onclick="toggleKeyControls()">Arrow Key Controls!</button>
+            </div>
         </div>
         <div class="bottombar">
 
