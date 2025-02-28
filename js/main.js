@@ -9,10 +9,10 @@ let height = slider.value;
 let width = height * DISPLAY_RATIO;
 
 let rainbow = false;
-let grayscale = false;
+let grayscale = true;
 
 let keyControls = false;
-let dir;
+let dir = null;
 
 let pixels = [];
 
@@ -36,11 +36,18 @@ function buildEtchSketch(height) {
 
     let dimensions = calcDimensions(height);
     pixels = [];
+    let tmp = {
+        grayscale: grayscale,
+        rainbow: rainbow
+    }
     grayscale = false;
     rainbow = false;
     createDivisions(dimensions);
+    grayscale = tmp.grayscale;
+    rainbow = tmp.rainbow;
     resetPointer();
     clearPixelIndex();
+    dir = null;
 }
 
 function createDivisions(dimensions) {
@@ -52,8 +59,8 @@ function createDivisions(dimensions) {
         let pixel = document.createElement("div");
         pixel.style.width = dimensions[1] + "px";
         pixel.style.height = dimensions[2] + "px";
-        pixel.style.backgroundColor = "#C0C0C0";
-        pixel.lightness = 70;
+        colorPixel(pixel, "#C0C0C0");
+        pixel.lightness = 75;
         pixels.push(pixel);
         fragment.appendChild(pixel);
     }
@@ -91,16 +98,23 @@ function resizeScreen() {
 
 function clearScreen() {
 
+    let tmp = {
+        grayscale: grayscale,
+        rainbow: rainbow
+    }
     grayscale = false;
     rainbow = false;
 
     for (let pixel of pixels) {
 
         colorPixel(pixel, "#C0C0C0");
-        pixel.lightness = 70;
+        pixel.lightness = 75;
     }
     clearPixelIndex();
     resetPointer();
+    grayscale = tmp.grayscale;
+    rainbow = tmp.rainbow;
+    dir = null;
 }
 
 function removeDivisions() {
@@ -282,13 +296,19 @@ function handleClicks(e) {
 function handleKeys(e) {
 
     let key = e.key;
-
     if (e.key === 'e') clearScreen();
 
     if (!keyControls) return;
 
+    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+
     let pointerId = pointer.x + pointer.y * width;
-    // colorPixel(pixels[pointerId], "#A9A9A9");
+    if (dir === null) {
+        
+        colorPixel(pixels[pointerId], "#A9A9A9");
+        dir = -1;
+        return;
+    };
 
     switch (key) {
 
@@ -298,6 +318,8 @@ function handleKeys(e) {
             if (dir === 1) {
 
                 colorPixel(pixels[pointerId], "#A9A9A9");
+                dir = 0;
+                return;
             }
 
             if (pointer.y > 0) pointer.y--;
@@ -309,6 +331,8 @@ function handleKeys(e) {
             if (dir === 0) {
 
                 colorPixel(pixels[pointerId], "#A9A9A9");
+                dir = 1;
+                return;
             }
 
             if (pointer.y < height - 1) pointer.y++;
@@ -320,6 +344,8 @@ function handleKeys(e) {
             if (dir === 3) {
 
                 colorPixel(pixels[pointerId], "#A9A9A9");
+                dir = 2;
+                return;
             }
 
             if (pointer.x > 0) pointer.x--;
@@ -331,6 +357,8 @@ function handleKeys(e) {
             if (dir === 2) {
 
                 colorPixel(pixels[pointerId], "#A9A9A9");
+                dir = 3;
+                return;
             }
 
             if (pointer.x < width - 1) pointer.x++;
