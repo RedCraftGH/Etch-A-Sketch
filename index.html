@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Etch-A-Sketch</title>
+        <link rel="stylesheet" href="./styles/index.css">
+    </head>
+    <body>
+        <div class="topbar">
+            <h1>Etch-A-Sketch</h1>
+        </div>
+        <div class="etchsketch">
+            <div class="leftknob"></div>
+            <div class="screen"></div>
+            <div class="rightknob"></div>
+        </div>
+        <div class="controls">
+            <div id="slider">
+                <label for="gridsize">Resolution:</label>
+                <label id="display" for="gridsize">placeholder</label>
+                <input type="range" id="gridsize" name="gridsize" min="5" max="125" oninput="updateDisplay()">
+            </div>
+            <button type="button" id="clear" onclick="clearScreen()">Clear!</button>
+            <button type="button" id="rebuild" onclick="rebuildScreen()">Change Resolution</button>
+            <button type="button" id="rainbow" onclick="toggleRainbow()">Rainbow Mode!</button>
+            <button type="button" id="grayscale" onclick="toggleGrayScale()">Grayscale Mode!</button>
+            <button type="button" id="keycontrols" onclick="toggleKeyControls()">Arrow Key Controls!</button>
+        </div>
+        <div class="bottombar">
+
+        </div>
+        <script src="./js/main.js"></script>
+    </body>
+</html>
