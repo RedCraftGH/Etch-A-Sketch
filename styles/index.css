@@ -6,18 +6,25 @@
 }
 
 body {
-    height: 130vh;
+    height: 180vh;
 }
 
-.topbar {
-    width: 100%;
-    background-color: aqua;
-    margin-bottom: 5%;
-}
-
-.topbar h1 {
-    margin: 1rem 0;
+.topbar, .bottombar {
+    font-size: 1.75rem;
     text-align: center;
+    color: white;
+
+    margin-top: 1%;
+    margin-bottom: 5%;
+    margin-left: 25%;
+    cursor: default;
+    width: 50%;
+}
+
+.topbar h1, .bottombar h1 {
+    background-color: aqua;
+    border-radius: 15px;
+    padding: 1% 0;
 }
 
 .etchsketch {
