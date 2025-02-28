@@ -1,0 +1,95 @@
+* {
+    overflow-x: hidden;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 130vh;
+}
+
+.topbar {
+    width: 100%;
+    background-color: aqua;
+    margin-bottom: 5%;
+}
+
+.topbar h1 {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.etchsketch {
+    margin: auto;
+    width: 60%;
+    height: 50%;
+    background-color: red;
+
+    box-shadow: black 0px 0px 15px;
+
+    border-radius: 20px;
+    border: 4px solid darkred;
+
+    display: flex;
+    align-items: flex-end;
+}
+
+.screen {
+    background: #C0C0C0;
+    margin: auto;
+    width: 85%;
+    height: 70%;
+
+    border-radius: 20px;
+    border: 3px solid gray;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.leftknob, .rightknob {
+    background-color: white;
+    width: 7%;
+    height: 0;
+    padding-bottom: 7%;
+    margin: 1%;
+
+    border-radius: 50%;
+    border: 3px solid silver;
+    
+    box-shadow: black 0 10px 20px;
+}
+
+.controls {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 6%;
+
+    width: 50%;
+    height: 20%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+#slider {
+    width: 100%;
+    text-align: center;
+}
+
+#slider p {
+    display: inline-block;
+}
+
+#gridsize {
+    height: 75%;
+    width: 100%;
+}
+
+#clear, #rebuild, #rainbow, #grayscale, #keycontrols {
+    height: 25%;
+    width: 20%;
+}
